@@ -1,13 +1,13 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 20
+    compileSdkVersion 26
     buildToolsVersion "20.0.0"
 
     defaultConfig {
         applicationId "co.flyver.Client"
-        minSdkVersion 17
-        targetSdkVersion 19
+        minSdkVersion 24
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
     }

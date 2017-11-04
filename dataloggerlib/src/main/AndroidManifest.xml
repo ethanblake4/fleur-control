@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="co.flyver.dataloggerlib" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -9,7 +11,7 @@
         <service
             android:name="co.flyver.dataloggerlib.LoggerService"
             android:exported="true" >
-            <uses-permission android:name="android.permission.INTERNET" />
+
         </service>
 
         <activity

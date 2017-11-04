@@ -1,9 +1,12 @@
 package co.flyver.dataloggerlib;
 
+import android.app.IntentService;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import org.apache.http.HttpResponse;
@@ -33,15 +36,17 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import co.flyver.utils.flyverMQ.FlyverMQ;
-import co.flyver.utils.flyverMQ.FlyverMQMessage;
-import co.flyver.utils.flyverMQ.interfaces.FlyverMQConsumer;
+import co.flyver.utils.flyvermq.FlyverMQ;
+import co.flyver.utils.flyvermq.FlyverMQMessage;
+import co.flyver.utils.flyvermq.interfaces.FlyverMQConsumer;
+
 
 /**
  * A {@link android.app.IntentService} subclass for handling asynchronous task requests in
  * a service on a separate handler thread.
  */
-public class LoggerService implements Runnable, FlyverMQConsumer {
+public class LoggerService extends IntentService implements Runnable, FlyverMQConsumer {
+
     protected static final String STOP_COMMAND = "stop";
     protected static final String THREAD_NAME = "LoggerThread";
 
@@ -61,13 +66,21 @@ public class LoggerService implements Runnable, FlyverMQConsumer {
 
     protected FlyverMQ m_mqQueue;
 
+
     public LoggerService(Context context, FlyverMQ queue) {
         this(context);
 
         m_mqQueue = queue;
     }
 
+    public LoggerService(String name) {
+        super(name);
+    }
+
     public LoggerService(Context context) {
+
+        super("LoggerService");
+
         m_bqQueue = new LinkedBlockingQueue(100);
         m_bqFileQueue = new LinkedBlockingQueue(100);
         InitProperties(context);
@@ -488,6 +501,11 @@ public class LoggerService implements Runnable, FlyverMQConsumer {
         }
 
         return sRet;
+    }
+
+    @Override
+    protected void onHandleIntent(@Nullable Intent intent) {
+
     }
 }
 

@@ -1,9 +1,9 @@
 package org.flyline
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import ioio.lib.util.android.IOIOActivity
 
-class FlyverActivity : AppCompatActivity() {
+class FlyverActivity : IOIOActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
