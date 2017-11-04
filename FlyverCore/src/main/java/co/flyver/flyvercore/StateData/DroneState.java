@@ -3,11 +3,11 @@ package co.flyver.flyvercore.StateData;
 import android.util.Log;
 
 import co.flyver.flyvercore.MainControllers.MainController;
-import co.flyver.utils.flyverMQ.FlyverMQMessage;
-import co.flyver.utils.flyverMQ.FlyverMQProducer;
-import co.flyver.utils.flyverMQ.exceptions.ProducerAlreadyRegisteredException;
-import co.flyver.utils.flyverMQ.interfaces.FlyverMQCallback;
-import co.flyver.utils.flyverMQ.interfaces.FlyverMQConsumer;
+import co.flyver.utils.flyvermq.FlyverMQMessage;
+import co.flyver.utils.flyvermq.FlyverMQProducer;
+import co.flyver.utils.flyvermq.exceptions.ProducerAlreadyRegisteredException;
+import co.flyver.utils.flyvermq.interfaces.FlyverMQCallback;
+import co.flyver.utils.flyvermq.interfaces.FlyverMQConsumer;
 
 public class DroneState implements SensorsWrapper.RotationVectorChanged, SensorsWrapper.LocationChanged, FlyverMQConsumer, FlyverMQCallback {
 

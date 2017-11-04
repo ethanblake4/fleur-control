@@ -10,9 +10,9 @@ import android.hardware.SensorManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import co.flyver.utils.flyverMQ.FlyverMQMessage;
-import co.flyver.utils.flyverMQ.FlyverMQProducer;
-import co.flyver.utils.flyverMQ.exceptions.ProducerAlreadyRegisteredException;
+import co.flyver.utils.flyvermq.FlyverMQMessage;
+import co.flyver.utils.flyvermq.FlyverMQProducer;
+import co.flyver.utils.flyvermq.exceptions.ProducerAlreadyRegisteredException;
 
 /**
  * Created by Petar Petrov on 12/4/14.

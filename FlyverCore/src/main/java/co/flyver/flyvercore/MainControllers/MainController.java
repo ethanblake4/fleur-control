@@ -15,8 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Type;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 import co.flyver.IPC.IPCContainers;
 import co.flyver.IPC.IPCKeys;
@@ -35,9 +33,10 @@ import co.flyver.flyvercore.StateData.DroneState;
 import co.flyver.flyvercore.StateData.LocationServicesProvider;
 import co.flyver.flyvercore.StateData.LocationServicesSubsciber;
 import co.flyver.flyvercore.StateData.SensorsWrapper;
-import co.flyver.utils.flyverMQ.FlyverMQ;
-import co.flyver.utils.flyverMQ.FlyverMQMessage;
-import co.flyver.utils.flyverMQ.interfaces.FlyverMQConsumer;
+import co.flyver.utils.flyvermq.FlyverMQ;
+import co.flyver.utils.flyvermq.FlyverMQMessage;
+import co.flyver.utils.flyvermq.exceptions.FlyverMQException;
+import co.flyver.utils.flyvermq.interfaces.FlyverMQConsumer;
 import ioio.lib.spi.Log;
 
 import static co.flyver.flyvercore.StateData.Battery.BatteryCells;
@@ -475,7 +474,11 @@ public class MainController extends Activity {
 
             }
         };
-        FlyverMQ.getInstance().registerConsumer(dronestateListener, "dronestate.raw");
+        try {
+            FlyverMQ.getInstance().registerConsumer(dronestateListener, "dronestate.raw");
+        } catch (FlyverMQException e) {
+            e.printStackTrace();
+        }
         deployWebpage();
     }
 

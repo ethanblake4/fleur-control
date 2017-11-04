@@ -11,9 +11,9 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 import co.flyver.flyvercore.MainControllers.MainController;
-import co.flyver.utils.flyverMQ.FlyverMQMessage;
-import co.flyver.utils.flyverMQ.FlyverMQProducer;
-import co.flyver.utils.flyverMQ.exceptions.ProducerAlreadyRegisteredException;
+import co.flyver.utils.flyvermq.FlyverMQMessage;
+import co.flyver.utils.flyvermq.FlyverMQProducer;
+import co.flyver.utils.flyvermq.exceptions.ProducerAlreadyRegisteredException;
 
 /**
  * Created by Tihomir Nedev on 15-1-9.

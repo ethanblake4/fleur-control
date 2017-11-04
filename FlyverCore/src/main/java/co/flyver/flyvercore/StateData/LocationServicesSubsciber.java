@@ -1,8 +1,8 @@
 package co.flyver.flyvercore.StateData;
 
 import co.flyver.flyvercore.MainControllers.MainController;
-import co.flyver.utils.flyverMQ.FlyverMQMessage;
-import co.flyver.utils.flyverMQ.interfaces.FlyverMQConsumer;
+import co.flyver.utils.flyvermq.FlyverMQMessage;
+import co.flyver.utils.flyvermq.interfaces.FlyverMQConsumer;
 
 /**
  * Created by Tihomir Nedev on 15-1-9.

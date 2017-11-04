@@ -25,4 +25,6 @@ dependencies {
     compile project(':IPC')
     compile project(':dataloggerlib')
     compile project(':libstreaming')
+    compile project(':nanohttpd')
+    compile project(':utils')
 }
