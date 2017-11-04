@@ -37,4 +37,5 @@ dependencies {
     implementation project(':FlyverCore')
     implementation 'com.jakewharton.timber:timber:4.6.0'
     implementation 'com.google.android.gms:play-services-location:11.4.2'
+    implementation project(':openCVLibrary331')
 }

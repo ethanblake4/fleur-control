@@ -10,3 +10,4 @@ project(':FlyverCore').projectDir = new File('FlyverCore')
 project(':FlyverServer').projectDir = new File('FlyverServer')
 project(':utils').projectDir = new File('utils')
 project(':nanohttpd').projectDir = new File('nanohttpd')
+include ':openCVLibrary331'

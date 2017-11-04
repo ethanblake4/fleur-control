@@ -157,7 +157,7 @@ class Adapter {
                 return null;
             UsbAccessoryInterface[] result = new UsbAccessoryInterface[accs.length];
             for (int i = 0; i < accs.length; ++i) {
-                result[i] = new UsbAccessoryAdapter<android.hardware.usb.UsbAccessory>(accs[i]);
+                result[i] = new UsbAccessoryAdapter<>(accs[i]);
             }
             return result;
         }

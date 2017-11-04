@@ -3,14 +3,15 @@ package org.flyline
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Handler
 import co.flyver.flyvercore.DroneTypes.QuadCopterX
-import co.flyver.flyvercore.MainControllers.MainController
 import co.flyver.flyvercore.MicroControllers.IOIOController
 import ioio.lib.util.IOIOLooper
 import ioio.lib.util.android.IOIOActivity
 import kotlinx.android.synthetic.main.activity_flyver.*
 
 class FlyverActivity : IOIOActivity() {
+
 
     private val drone = QuadCopterX()
     private lateinit var cameraController: CameraController
@@ -19,6 +20,7 @@ class FlyverActivity : IOIOActivity() {
     private var initialized = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_flyver)
 
@@ -38,6 +40,7 @@ class FlyverActivity : IOIOActivity() {
             locationController = LocationController(this)
             initialized = true
         }
+        
     }
 
     override fun onResume() {
@@ -80,21 +83,23 @@ class FlyverActivity : IOIOActivity() {
             .addConnectionHooks(object : IOIOController.ConnectionHooks {
                     override fun onConnect(ioioController: IOIOController) {
 
-                        MainController.MainControllerBuilder()
-                                .setMicroController(ioioController)
-                                .setDrone(drone)
-                                .setActivity(this@FlyverActivity)
-                                .build()
 
-                        MainController.getInstance().onIoioConnect()
+                        drone.updateSpeeds(0f,0f,0f,0.1f)
+
+                        Handler().postDelayed({
+                            drone.updateSpeeds(0f,0f,0f,0f)
+                        }, 1000)
                     }
 
                     override fun onDisconnect() {
-                        MainController.getInstance().onIoioDisconnect()
                     }
         })
 
     companion object {
+        init {
+            System.loadLibrary("opencv_java3")
+        }
+
         val REQUEST_PERMISSION = 1 /* Identifies camera permission request */
     }
 
