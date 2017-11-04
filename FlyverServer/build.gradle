@@ -21,10 +21,11 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('libs/gson-2.3.jar')
+    //compile files('libs/gson-2.3.jar')
     compile project(':IPC')
     compile project(':dataloggerlib')
     compile project(':libstreaming')
     compile project(':nanohttpd')
     compile project(':utils')
+    implementation 'com.google.code.gson:gson:2.8.2'
 }

@@ -2,8 +2,6 @@
     package="co.flyver.IPC">
 
     <application android:allowBackup="true"
-        android:label="@string/app_name"
-        android:icon="@drawable/ic_launcher"
 >
 
     </application>

@@ -27,4 +27,5 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project (':IPC')
     compile project (':nanohttpd')
+    implementation 'com.google.code.gson:gson:2.8.2'
 }
