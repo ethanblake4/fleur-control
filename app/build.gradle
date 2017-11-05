@@ -8,7 +8,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "org.flyline"
-        minSdkVersion 24
+        minSdkVersion 26
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -38,4 +38,5 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.6.0'
     implementation 'com.google.android.gms:play-services-location:11.4.2'
     implementation project(':openCVLibrary331')
+    implementation project(':quiet')
 }

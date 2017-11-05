@@ -60,7 +60,8 @@ public class IOIOController extends BaseIOIOLooper implements MicroController {
         motorFC = ioio_.openPwmOutput(34, mFrequncy);
         motorFCC = ioio_.openPwmOutput(35, mFrequncy);
         motorRC = ioio_.openPwmOutput(36, mFrequncy);
-        motorRCC = ioio_.openPwmOutput(37, mFrequncy);
+        motorRCC = ioio_.openPwmOutput(45 /* 37 */, mFrequncy);
+        //ioio_.o
         batteryInput = ioio_.openAnalogInput(46);
         if(connectionHooks != null) {
             connectionHooks.onConnect(this);

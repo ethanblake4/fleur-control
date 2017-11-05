@@ -1,5 +1,5 @@
 
-include ':app',':FlyverServer', ':IPC', ':dataloggerlib', ':iOIOLibBT', ':IOIOLibs', ':iOIOLibAndroidDevice', ':iOIOLibAndroid', ':iOIOLibAccessory', ':iOIOController', ':FlyverCore', ':libstreaming', ':utils', ':nanohttpd'
+include ':app', ':FlyverServer', ':IPC', ':dataloggerlib', ':iOIOLibBT', ':IOIOLibs', ':iOIOLibAndroidDevice', ':iOIOLibAndroid', ':iOIOLibAccessory', ':iOIOController', ':FlyverCore', ':libstreaming', ':utils', ':nanohttpd', ':quiet'
 project(':iOIOLibBT').projectDir = new File('IOIO/iOIOLibBT')
 project(':IOIOLibs').projectDir = new File('IOIO/IOIOLibs')
 project(':iOIOLibAndroidDevice').projectDir = new File('IOIO/iOIOLibAndroidDevice')

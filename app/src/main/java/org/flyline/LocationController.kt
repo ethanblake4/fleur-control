@@ -46,6 +46,7 @@ class LocationController (
     init {
         createLocationCallback()
         createLocationRequest()
+        buildLocationSettingsRequest()
     }
 
 

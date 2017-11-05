@@ -19,10 +19,12 @@ import android.util.SparseIntArray
 import android.view.Surface
 import android.view.TextureView
 import android.widget.Toast
+import org.opencv.android.Utils
+import org.opencv.core.CvType
+import org.opencv.core.Mat
+import org.opencv.imgproc.Imgproc
 import timber.log.Timber
 import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
 import java.util.*
 import java.util.concurrent.Semaphore
 import java.util.concurrent.TimeUnit
@@ -33,7 +35,8 @@ import java.util.concurrent.TimeUnit
 
 class CameraController (
         val activity: FlyverActivity,
-        val textureView: AutoFitTextureView
+        val textureView: AutoFitTextureView,
+        val matCallback: (Mat) -> Unit
 ){
 
     /**
@@ -378,7 +381,8 @@ class CameraController (
                         ImageFormat.JPEG, /*maxImages*/2)
 
                 imageReader!!.setOnImageAvailableListener({ reader ->
-                    backgroundHandler!!.post(ImageSaver(reader.acquireNextImage(), file)); }
+                    backgroundHandler!!.post(ImageSaver(reader.acquireNextImage(), matCallback,
+                            file)); }
                         ,backgroundHandler)
 
                 // Find out if we need to swap dimension to get the preview size relative to sensor
@@ -489,7 +493,7 @@ class CameraController (
             matrix.postRotate(180f, centerX, centerY);
         }
 
-        textureView.setTransform(matrix);
+        textureView.setTransform(matrix)
     }
 
     /**
@@ -541,7 +545,7 @@ class CameraController (
                             }
 
                             // When the session is ready, we start displaying the preview.
-                            captureSession = cameraCaptureSession;
+                            captureSession = cameraCaptureSession
                             try {
                                 // Auto focus should be continuous for camera preview.
                                 previewRequestBuilder!!.set(CaptureRequest.CONTROL_AF_MODE,
@@ -562,6 +566,23 @@ class CameraController (
                         }
                     }, null
             )
+        } catch (e: CameraAccessException) {
+            e.printStackTrace()
+        }
+    }
+
+    /**
+     * Lock the focus as the first step for a still image capture.
+     */
+    fun lockFocus() {
+        try {
+            // This is how to tell the camera to lock focus.
+            previewRequestBuilder!!.set(CaptureRequest.CONTROL_AF_TRIGGER,
+                    CameraMetadata.CONTROL_AF_TRIGGER_START)
+            // Tell #mCaptureCallback to wait for the lock.
+            state = STATE_WAITING_LOCK;
+            captureSession!!.capture(previewRequestBuilder!!.build(), captureCallback,
+                    backgroundHandler);
         } catch (e: CameraAccessException) {
             e.printStackTrace()
         }
@@ -667,6 +688,7 @@ class CameraController (
              * The JPEG image
              */
             private val image: Image,
+            private val cb: (Mat) -> Unit,
             /**
              * The file we save the image into.
              */
@@ -674,7 +696,25 @@ class CameraController (
 
         override fun run() {
             val buffer = image.planes[0].buffer
-            val bytes = ByteArray(buffer.remaining())
+
+            val bytes =  ByteArray(buffer.capacity())
+            buffer.get(bytes)
+            val bitmapImage = BitmapFactory.decodeByteArray(bytes, 0, bytes.size, null)
+
+            val bmp32 = bitmapImage.copy(Bitmap.Config.ARGB_8888, true)
+            Timber.d(bitmapImage.width.toString() + " "+  bitmapImage.height.toString());
+
+            val mat = Mat(image.height, image.width, CvType.CV_8UC4)
+
+            val mat2 = Mat()
+
+            Utils.bitmapToMat(bmp32, mat)
+
+            Imgproc.cvtColor(mat, mat2, Imgproc.COLOR_BGRA2BGR)
+
+            cb(mat2)
+
+            /*
             buffer.get(bytes)
             var output: FileOutputStream? = null
             try {
@@ -692,7 +732,7 @@ class CameraController (
                     }
 
                 }
-            }
+            }*/
         }
 
     }
