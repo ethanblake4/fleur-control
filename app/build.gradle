@@ -39,4 +39,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:11.4.2'
     implementation project(':openCVLibrary331')
     implementation project(':quiet')
+    implementation 'com.squareup.okhttp3:okhttp:3.9.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.6'
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
 }

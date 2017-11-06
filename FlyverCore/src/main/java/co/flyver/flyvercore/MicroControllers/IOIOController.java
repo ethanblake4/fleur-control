@@ -57,10 +57,10 @@ public class IOIOController extends BaseIOIOLooper implements MicroController {
     public void setup() throws ConnectionLostException {
         ioioref = true;
         int mFrequncy = 200;
-        motorFC = ioio_.openPwmOutput(34, mFrequncy);
+        motorFC = ioio_.openPwmOutput(33, mFrequncy);
         motorFCC = ioio_.openPwmOutput(35, mFrequncy);
-        motorRC = ioio_.openPwmOutput(36, mFrequncy);
-        motorRCC = ioio_.openPwmOutput(45 /* 37 */, mFrequncy);
+        motorRC = ioio_.openPwmOutput(37, mFrequncy);
+        motorRCC = ioio_.openPwmOutput(39 /* 37 */, mFrequncy);
         //ioio_.o
         batteryInput = ioio_.openAnalogInput(46);
         if(connectionHooks != null) {

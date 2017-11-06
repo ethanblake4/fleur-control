@@ -3,6 +3,8 @@ package org.flyline;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
+import org.opencv.core.MatOfPoint2f;
+import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
@@ -10,6 +12,9 @@ import org.opencv.imgproc.Moments;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import timber.log.Timber;
+
 
 public class PatternFinder {
 
@@ -38,26 +43,33 @@ public class PatternFinder {
         double area=0.0;
         Mat largestArea  = new Mat();
         if(cnts.size()>0){
+
+            double max = 0.0;
+            MatOfPoint2f maxMat = null;
             for(int i = 0; i<cnts.size();i++){
-                double temp = Imgproc.contourArea(cnts.get(i));
-                Mat temp2 = cnts.get(i);
-                if(temp>area){
-                    area = temp;
-                    largestArea = temp2;
+                MatOfPoint2f temp2 = new MatOfPoint2f(cnts.get(i).toArray());
+                double temp = Imgproc.contourArea(temp2);
+                if(temp > max) {
+                    max = temp;
+                    maxMat = temp2;
                 }
             }
-            if(area == 0.0) area = Imgproc.contourArea(mask);
+
+            if(max == 0.0) max = Imgproc.contourArea(mask);
+
+            Point xy = new Point();
+            float[] radius = new float[1];
+            Imgproc.minEnclosingCircle(maxMat,xy,radius);
+
+            Moments M = Imgproc.moments(maxMat);
+
+            cordinates[0] = M.get_m10() / M.get_m00();
+            cordinates[1]= M.get_m01() / M.get_m00();
+
+            // Point center = new Point((M.get_m10() / M.get_m00()), (M.get_m01() / M.get_m00()));
+            Timber.d("%f %s", max, M.get_m10());
 
         }
-        Moments M = new Moments();
-        Imgproc.moments(largestArea);
-
-        cordinates[0] = M.get_m10() / M.get_m00();
-        cordinates[1]= M.get_m01() / M.get_m00();
-
-        // Point center = new Point((M.get_m10() / M.get_m00()), (M.get_m01() / M.get_m00()));
-
-
 
         return cordinates;
     }

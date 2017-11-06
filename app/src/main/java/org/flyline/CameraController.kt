@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit
 class CameraController (
         val activity: FlyverActivity,
         val textureView: AutoFitTextureView,
-        val matCallback: (Mat) -> Unit
+        val matCallback: (Mat, ByteArray, Bitmap) -> Unit
 ){
 
     /**
@@ -378,7 +378,8 @@ class CameraController (
                                 .apply { sortWith(CompareSizesByArea()) } [0]
 
                 imageReader = ImageReader.newInstance(largest.width, largest.height,
-                        ImageFormat.JPEG, /*maxImages*/2)
+                        ImageFormat.JPEG, 10)
+
 
                 imageReader!!.setOnImageAvailableListener({ reader ->
                     backgroundHandler!!.post(ImageSaver(reader.acquireNextImage(), matCallback,
@@ -482,7 +483,7 @@ class CameraController (
 
         if (Surface.ROTATION_90 == rotation || Surface.ROTATION_270 == rotation) {
             bufferRect.offset(centerX - bufferRect.centerX(), centerY - bufferRect.centerY())
-            matrix.setRectToRect(viewRect, bufferRect, Matrix.ScaleToFit.FILL);
+            matrix.setRectToRect(viewRect, bufferRect, Matrix.ScaleToFit.FILL)
             val scale = Math.max(
                      viewHeight.toFloat() / previewSize!!.height ,
                      viewWidth.toFloat() / previewSize!!.width)
@@ -660,7 +661,7 @@ class CameraController (
             // After this, the camera will go back to the normal state of preview.
             state = STATE_PREVIEW
             captureSession!!.setRepeatingRequest(previewRequest, captureCallback,
-                    backgroundHandler);
+                    backgroundHandler)
         } catch (e: CameraAccessException) {
             e.printStackTrace()
         }
@@ -688,7 +689,7 @@ class CameraController (
              * The JPEG image
              */
             private val image: Image,
-            private val cb: (Mat) -> Unit,
+            private val cb: (Mat, ByteArray, Bitmap) -> Unit,
             /**
              * The file we save the image into.
              */
@@ -699,6 +700,7 @@ class CameraController (
 
             val bytes =  ByteArray(buffer.capacity())
             buffer.get(bytes)
+
             val bitmapImage = BitmapFactory.decodeByteArray(bytes, 0, bytes.size, null)
 
             val bmp32 = bitmapImage.copy(Bitmap.Config.ARGB_8888, true)
@@ -712,7 +714,9 @@ class CameraController (
 
             Imgproc.cvtColor(mat, mat2, Imgproc.COLOR_BGRA2BGR)
 
-            cb(mat2)
+            cb(mat2, bytes, bitmapImage)
+
+            image.close()
 
             /*
             buffer.get(bytes)
