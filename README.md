@@ -1,6 +1,8 @@
 # fleur-control
 This is the Android control app for the in-progress Fleur hoverdrone project.
 
+![Screenshot](https://user-images.githubusercontent.com/9874748/43705025-4c131682-9916-11e8-89bf-86eb84a2a980.png)
+
 
 ## Project Overview
 The [Fleur project](https://docs.google.com/document/d/1A1V8CYays-iltLlI5e2uotQGhuW_GCRXdnoU04Tryas/edit?usp=sharing) aims to create a working electric hoverdrone capable of manned flight. 
