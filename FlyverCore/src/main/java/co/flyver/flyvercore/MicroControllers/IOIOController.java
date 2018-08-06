@@ -57,6 +57,7 @@ public class IOIOController extends BaseIOIOLooper implements MicroController {
     public void setup() throws ConnectionLostException {
         ioioref = true;
         int mFrequncy = 200;
+
         motorFC = ioio_.openPwmOutput(33, mFrequncy);
         motorFCC = ioio_.openPwmOutput(35, mFrequncy);
         motorRC = ioio_.openPwmOutput(37, mFrequncy);
@@ -80,6 +81,7 @@ public class IOIOController extends BaseIOIOLooper implements MicroController {
         try {
 
             motorPowers = quadCopterX.getMotorPowers();
+
             motorFC.setPulseWidth(motorPowers[0] + 1000);
             motorFCC.setPulseWidth(motorPowers[1] + 1000);
             motorRC.setPulseWidth(motorPowers[2] + 1000);

@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:opencv="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/flyconstraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FlyverActivity">
+    tools:context=".FlightActivity"
+    tools:layout_editor_absoluteY="25dp">
 
-    <org.flyline.AutoFitTextureView
+    <org.opencv.android.JavaCameraView
         android:id="@+id/autofit"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        opencv:camera_id="any"
+        opencv:show_fps="true" />
+
+    <android.opengl.GLSurfaceView
+        android:id="@+id/arView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
 
     <View
+        android:id="@+id/view2"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:background="#c333" />
@@ -20,7 +34,7 @@
         android:id="@+id/connectText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="18dp"
         android:layout_marginTop="21dp"
         android:text="DRONE DISCONNECTED"
         android:textAppearance="@android:style/TextAppearance.Material.Medium"
@@ -36,6 +50,7 @@
         android:layout_marginTop="24dp"
         android:text="IDLE"
         android:textColor="#fff"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,7 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="46dp"
         android:layout_marginTop="100dp"
-        android:text="CURRENT LOCATION"
+        android:text="GPS LOCATION:"
         android:textColor="#ffa"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -76,10 +91,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/curLatText"
         android:text="Long: "
         android:textColor="#fff"
         app:layout_constraintStart_toStartOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/curLatText"
         tools:layout_editor_absoluteY="195dp" />
 
     <TextView
@@ -88,27 +103,26 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/longText"
         android:text="Altitude: "
         android:textColor="#fff"
         app:layout_constraintStart_toStartOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/longText"
         tools:layout_editor_absoluteY="195dp" />
 
 
-    <ImageView
+    <View
         android:id="@+id/lastimgDisplay"
         android:layout_width="182dp"
         android:layout_height="110dp"
-        android:layout_marginBottom="24dp"
-        android:layout_marginEnd="24dp"
-        android:src="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="32dp"
+        android:background="#c333"
+        app:layout_constraintBottom_toBottomOf="@+id/provisionContainer"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <View
         android:id="@+id/provisionContainer"
         android:layout_width="200dp"
-        android:layout_height="120dp"
+        android:layout_height="100dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="256dp"
         android:background="#c333"
@@ -121,8 +135,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="46dp"
         android:layout_marginTop="262dp"
-        android:text="TARGET LOCATION"
-        android:textColor="#eef"
+        android:alpha="1"
+        android:text="VISUAL LOCATION:"
+        android:textColor="#dbf"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -130,7 +145,7 @@
         android:id="@+id/view"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginTop="78dp"
         android:background="@drawable/circle_grey"
         app:layout_constraintEnd_toEndOf="parent"
@@ -140,55 +155,64 @@
         android:id="@+id/sensorDisplay"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginEnd="54dp"
+        android:layout_marginEnd="62dp"
         android:layout_marginTop="109dp"
         android:src="@drawable/circle_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/rotateDisplay"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:layout_marginEnd="62dp"
+        android:layout_marginTop="109dp"
+        android:src="@drawable/circle_blue"
+        app:layout_constraintCircle="@+id/sensorDisplay"
+        app:layout_constraintCircleRadius="0dp" />
+
+    <ImageView
+        android:id="@+id/rotateDisplay2"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:layout_marginEnd="62dp"
+        android:layout_marginTop="109dp"
+        android:src="@drawable/circle_white"
+        app:layout_constraintCircle="@+id/sensorDisplay"
+        app:layout_constraintCircleRadius="0dp" />
+
     <TextView
-        android:id="@+id/targetLat1"
+        android:id="@+id/visualX"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
-        android:text="Lat 1:"
+        android:text="X:"
         android:textColor="#fff"
         app:layout_constraintStart_toStartOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <TextView
-        android:id="@+id/targetLat2"
+        android:id="@+id/visualY"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="2dp"
+        android:text="Y:"
         android:textColor="#fff"
-        android:text="Lat 2:"
         app:layout_constraintStart_toStartOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/targetLat1" />
+        app:layout_constraintTop_toBottomOf="@+id/visualX" />
 
     <TextView
-        android:id="@+id/targetLong1"
-        android:layout_width="wrap_content"
-        android:layout_height="19dp"
-        android:layout_marginStart="8dp"
-        android:textColor="#fff"
-        android:layout_marginTop="2dp"
-        android:text="Long 1:"
-        app:layout_constraintStart_toStartOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/targetLat2" />
-
-    <TextView
-        android:id="@+id/targetLong2"
+        android:id="@+id/visualZ"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="2dp"
+        android:text="Z:"
         android:textColor="#fff"
-        android:text="Long 2:"
         app:layout_constraintStart_toStartOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/targetLong1" />
+        app:layout_constraintTop_toBottomOf="@+id/visualY" />
 
     <Button
         android:id="@+id/reachTarget"
@@ -216,30 +240,82 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/calibrationScreen"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#fff"
-        android:orientation="vertical">
+    <android.support.v7.widget.CardView
+        android:id="@+id/calibrationCard"
+        android:layout_width="360dp"
+        android:layout_height="190dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:cardBackgroundColor="#bbf"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="9dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/matrix1Val"
+        <LinearLayout
+            android:id="@+id/calibrationScreen"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="TextView"
-            android:textSize="24dp" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/calibrateCompleteButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="24dp"
-            android:text="Complete" />
+            <TextView
+                android:id="@+id/matrix1Val"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="TextView"
+                android:textColor="#036"
+                android:textSize="16dp"
+                android:textStyle="bold" />
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/calibrateCompleteButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="24dp"
+                android:text="Calibrate" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <ImageView
+        android:id="@+id/cameraTechIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginTop="4dp"
+        android:adjustViewBounds="true"
+        android:alpha="0.9"
+        android:src="@drawable/arcore"
+        app:layout_constraintBottom_toBottomOf="@+id/view2"
+        app:layout_constraintEnd_toStartOf="@+id/stateText"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="VISUAL VELOCITY"
+        android:textColor="#c7ea"
+        app:layout_constraintStart_toStartOf="@+id/lastimgDisplay"
+        app:layout_constraintTop_toTopOf="@+id/lastimgDisplay" />
+
+    <View
+        android:id="@+id/velocityCircle"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:background="@drawable/circle_blue"
+        app:layout_constraintCircle="@+id/lastimgDisplay"
+        />
 
 
 </android.support.constraint.ConstraintLayout>
